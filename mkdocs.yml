@@ -1,0 +1,30 @@
+site_name: riemann
+repo_url: https://github.com/sakti/riemann
+site_url: https://sakti.github.io/riemann
+site_description: Experimental Imaginary
+site_author: Sakti Dwi Cahyono
+
+nav:
+  - Home: index.md
+  - Modules: modules.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+            setup_commands:
+                - import sys
+                - sys.path.append('../')
+copyright: Maintained by Sakti Dwi Cahyono.
+theme:
+  name: material
+  feature:
+    tabs: true
+  palette:
+    primary: white
+    accent: blue
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
