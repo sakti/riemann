@@ -26,6 +26,10 @@ build: clean-build ## Build wheel file using poetry
 	@echo "🚀 Creating wheel file"
 	@poetry build
 
+dockerize:
+	@echo "🚀 Creating docker image"
+	@docker build -t reimann:latest .
+
 clean-build: ## clean build artifacts
 	@rm -rf dist
 
@@ -34,6 +38,9 @@ docs-test: ## Test if documentation can be built without warnings or errors
 
 docs: ## Build and serve the documentation
 	@mkdocs serve
+
+collect-static:
+	python manage.py collectstatic --noinput
 
 .PHONY: docs
 
