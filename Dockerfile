@@ -32,7 +32,7 @@ RUN apt-get -y install --no-install-recommends libffi7 libpq5 libfreetype6-dev c
 EXPOSE 8000
 
 COPY --from=builder /venv /venv
-RUN python -m riemann.setup --static
+RUN /venv/bin/python -m riemann.setup --static
 COPY docker-entrypoint.sh ./
 # todo: use supervisord for multiple process (e.g: huey worker)
 CMD ["./docker-entrypoint.sh"]

@@ -10,23 +10,35 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import environ
 from pathlib import Path
 from typing import List
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+if READ_DOT_ENV_FILE:
+    # OS environment variables take precedence over variables from .env
+    env_file_path = str(BASE_DIR / ".env")
+    print(f">>> reading env file{env_file_path}")
+    env.read_env(env_file_path)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-$ce@35(j)@28#q5l&zgymcfj4&tec!-9ns_&205@i&1x9+m8c("
+SECRET_KEY = env(
+    "DJANGO_SECRET_KEY",
+    default="!!!SET DJANGO_SECRET_KEY!!!",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS: List[str] = []
+ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=["localhost"])
 
 
 # Application definition
@@ -75,10 +87,10 @@ WSGI_APPLICATION = "riemann.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": env.db(
+        "DATABASE_URL",
+        default=f"sqlite:///{BASE_DIR}/db.sqlite3",
+    ),
 }
 
 
