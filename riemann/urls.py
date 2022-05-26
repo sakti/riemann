@@ -20,14 +20,14 @@ from rest_framework import routers, serializers, viewsets
 
 
 # Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):  # type: ignore[no-any-unimported]
     class Meta:
         model = User
         fields = ["url", "username", "email", "is_staff"]
 
 
 # ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):  # type: ignore[no-any-unimported]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
