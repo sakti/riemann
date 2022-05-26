@@ -9,6 +9,7 @@ processes = []
 [env]
   PORT = "8000"
   DJANGO_ALLOWED_HOSTS="riemann.fly.dev"
+  DJANGO_CSRF_TRUSTED_ORIGINS="https://riemann.fly.dev"
 
 [experimental]
   allowed_public_ports = []

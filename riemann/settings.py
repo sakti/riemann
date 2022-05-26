@@ -40,6 +40,7 @@ SECRET_KEY = env(
 DEBUG = env.bool("DJANGO_DEBUG", False)
 
 ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=["localhost"])
+CSRF_TRUSTED_ORIGINS: List[str] = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=["http://localhost"])
 
 
 # Application definition
