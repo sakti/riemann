@@ -10,20 +10,19 @@ FROM base as builder
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
 	PIP_DISABLE_PIP_VERSION_CHECK=1 \
-	PIP_NO_CACHE_DIR=1 \
-	POETRY_VERSION=1.1.13
+	PIP_NO_CACHE_DIR=1
 
 RUN apt-get update
 RUN apt-get -y install build-essential libffi-dev libpq-dev python3-dev libjpeg-dev zlib1g-dev libc-dev make curl libfreetype6-dev
 
-RUN pip install "poetry==$POETRY_VERSION"
+RUN pip install uv
 RUN python -m venv /venv
 
-COPY pyproject.toml poetry.lock ./
-RUN poetry export -f requirements.txt --without-hashes | /venv/bin/pip install -r /dev/stdin
+COPY pyproject.toml uv.lock ./
+RUN uv export --no-hashes | /venv/bin/pip install -r /dev/stdin
 
 COPY . .
-RUN poetry build && /venv/bin/pip install dist/*.whl
+RUN uv build && /venv/bin/pip install dist/*.whl
 
 FROM base as final
 RUN apt-get update

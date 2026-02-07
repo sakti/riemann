@@ -1,5 +1,3 @@
-# checkout-and-yarn/action.yml
-
 name: 'run-checks'
 description: 'Composite action to run checks for code formatting and to run the unittests.'
 runs:
@@ -7,14 +5,9 @@ runs:
     steps:
 
       - name: Formatting check
-        run: |
-              source .venv/bin/activate
-              make check
+        run: make check
         shell: bash
 
       - name: Test with pytest
-        run: |
-              source .venv/bin/activate
-              make test
+        run: make test
         shell: bash
-        

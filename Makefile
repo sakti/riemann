@@ -1,30 +1,29 @@
-install: ## Install the poetry environment
-	@echo "🚀 Creating virtual environment using pyenv and poetry"
-	@poetry install	
-	@poetry shell
+install: ## Install the environment using uv
+	@echo "🚀 Creating virtual environment using uv"
+	@uv sync
 
 format: ## Format code using isort and black.
 	@echo "🚀 Formatting code: Running isort and black"
-	@isort .
-	@black .
+	@uv run isort .
+	@uv run black .
 
 check: ## Check code formatting using isort, black, flake8 and mypy.
 	@echo "🚀 Checking code formatting: Running isort"
-	@isort --check-only --diff .
+	@uv run isort --check-only --diff .
 	@echo "🚀 Checking code formatting: Running black"
-	@black --check .
+	@uv run black --check .
 	@echo "🚀 Checking code formatting: Running flake8"
-	@flake8 .
+	@uv run flake8 .
 	@echo "🚀 Checking code formatting: Running mypy"
-	@mypy .
+	@uv run mypy .
 
 test: ## Test the code with pytest
 	@echo "🚀 Testing code: Running pytest"
-	@pytest --doctest-modules
+	@uv run pytest --doctest-modules
 
-build: clean-build ## Build wheel file using poetry
+build: clean-build ## Build wheel file using uv
 	@echo "🚀 Creating wheel file"
-	@poetry build
+	@uv build
 
 dockerize:
 	@echo "🚀 Creating docker image"
@@ -34,13 +33,13 @@ clean-build: ## clean build artifacts
 	@rm -rf dist
 
 docs-test: ## Test if documentation can be built without warnings or errors
-	@mkdocs build -s
+	@uv run mkdocs build -s
 
 docs: ## Build and serve the documentation
-	@mkdocs serve
+	@uv run mkdocs serve
 
 collect-static:
-	python manage.py collectstatic --noinput
+	uv run python manage.py collectstatic --noinput
 
 .PHONY: docs
 
